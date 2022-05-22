@@ -9,7 +9,6 @@ const Home: NextPage = () => {
   return (
     <>
       <NavBar />
-      <h1 className="text-3xl font-bold underline">RomaN</h1>
     </>
   )
 }

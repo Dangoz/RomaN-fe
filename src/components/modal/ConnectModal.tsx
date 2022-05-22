@@ -1,8 +1,14 @@
-import { useState } from 'react'
 import ModalWrapper from './ModalWrapper'
+import Button from '@/components/ui/Button'
+import Metamask from '@/components/icons/Metamask'
+import WalletConnect from '@/components/icons/WalletConnect'
 
-const ConnectModal = () => {
-  const [active, setActive] = useState(true)
+interface ConnectModalProps {
+  active: boolean
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ConnectModal = ({ active, setActive }: ConnectModalProps) => {
   return (
     <>
       {active && (
@@ -13,7 +19,19 @@ const ConnectModal = () => {
             }
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={'mb-5 text-lg lg:text-2xl font-normal text-center'}>Welcome, Please Connect Wallet</div>
+            <div className={'mb-10 text-lg lg:text-2xl font-normal text-center'}>Welcome, Please Connect Wallet</div>
+
+            <Button color={'Metamask'}>
+              <Metamask size={30} />
+              <span>Metamask</span>
+            </Button>
+
+            <div className="h-[15px]" />
+
+            <Button color={'WalletConnect'}>
+              <WalletConnect size={30} />
+              <span>WalletConnect</span>
+            </Button>
           </div>
         </ModalWrapper>
       )}

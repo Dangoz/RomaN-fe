@@ -9,12 +9,11 @@ const ModalWrapper = ({ children, setActive }: PropsWithChildren<ModalWrapperPro
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-screen h-screen flex flex-col items-center justify-center bg-slate-300 z-0`}
+        className={`fixed top-0 left-0 w-screen h-screen flex flex-col items-center justify-center bg-slate-300/50 z-40`}
         onClick={() => setActive(false)}
       >
         {children}
       </div>
-      <div className=" z-50">lalaa</div>
     </>
   )
 }
