@@ -21,14 +21,14 @@ const ConnectModal = ({ active, setActive }: ConnectModalProps) => {
           >
             <div className={'mb-10 text-lg lg:text-2xl font-normal text-center'}>Welcome, Please Connect Wallet</div>
 
-            <Button color={'Metamask'}>
+            <Button color={'Metamask'} width={360}>
               <Metamask size={30} />
               <span>Metamask</span>
             </Button>
 
             <div className="h-[15px]" />
 
-            <Button color={'WalletConnect'}>
+            <Button color={'WalletConnect'} width={360}>
               <WalletConnect size={30} />
               <span>WalletConnect</span>
             </Button>

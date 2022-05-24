@@ -4,13 +4,24 @@ import Spinner from './Spinner'
 interface ButtonProps {
   text?: string
   color?: string
+  width?: number
+  height?: number
   onClick?: (...args: any[]) => void
   className?: string
   isLoading?: boolean
   children?: ReactNode
 }
 
-const Button = ({ text, color, onClick, className, isLoading = false, children }: ButtonProps) => {
+const Button = ({
+  text,
+  color,
+  width = 200,
+  height = 40,
+  onClick,
+  className,
+  isLoading = false,
+  children,
+}: ButtonProps) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (onClick) {
       onClick(e)
@@ -24,9 +35,9 @@ const Button = ({ text, color, onClick, className, isLoading = false, children }
   return (
     <div
       className={`flex flex-wrap items-center justify-center gap-5 cursor-pointer rounded-sm
-    w-[360px] h-[40px] 
     ${bgColorClass} ${colorClass} 
     ${className}`}
+      style={{ width: `${width}px`, height: `${height}px` }}
       onClick={handleClick}
     >
       {isLoading ? (
