@@ -26,6 +26,7 @@ const connectWalletConnect = async (
 ): Promise<UserActionPayloads['LOG_IN'] | null> => {
   const walletConnectProvider = new WalletConnectProvider({
     infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    pollingInterval: 60 * 1000,
   })
 
   let session: string[]
