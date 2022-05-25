@@ -1,5 +1,6 @@
 import IUser from '@/types/user'
 import { UserActionTypes, UserActions } from './actions'
+import { initialState } from './userContext'
 
 type Reducer<S, A> = (state: S, action: A) => S
 
@@ -8,7 +9,7 @@ const userReducer: Reducer<IUser, UserActions> = function (state: IUser, action:
     case UserActionTypes.login:
       return { ...state, ...action.payload }
     case UserActionTypes.logout:
-      return state
+      return initialState
     default:
       return state
   }

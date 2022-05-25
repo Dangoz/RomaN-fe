@@ -18,11 +18,12 @@ const connectMetaMask = async (): Promise<UserActionPayloads['LOG_IN'] | null> =
   })
 
   const address = ethers.utils.getAddress(accounts[0])
-  const signer: Signer = await provider.getSigner()
   return { address, provider }
 }
 
-const connectWalletConnect = async (): Promise<UserActionPayloads['LOG_IN'] | null> => {
+const connectWalletConnect = async (
+  userDispatch: React.Dispatch<UserActions>,
+): Promise<UserActionPayloads['LOG_IN'] | null> => {
   const walletConnectProvider = new WalletConnectProvider({
     infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
   })
@@ -35,9 +36,14 @@ const connectWalletConnect = async (): Promise<UserActionPayloads['LOG_IN'] | nu
   }
 
   const provider = new ethers.providers.Web3Provider(walletConnectProvider)
+  if (!provider) {
+    return null
+  }
 
+  // subscribe to disconnect
   walletConnectProvider.on('disconnect', (code: number, reason: string) => {
     console.log(code, reason)
+    disconnect(userDispatch)
   })
 
   const signer = await provider.getSigner()
@@ -46,33 +52,52 @@ const connectWalletConnect = async (): Promise<UserActionPayloads['LOG_IN'] | nu
   return { address, provider }
 }
 
-const disconnect = async () => {}
+const disconnect = async (userDispatch: React.Dispatch<UserActions>) => {
+  // clear localstorage
+  setLocalmethod('', '')
 
-const reconnect = async () => {}
+  // reset userState to initial state
+  userDispatch({
+    type: UserActionTypes['logout'],
+    payload: {},
+  })
+}
+
+const reconnect = async (userDispatch: React.Dispatch<UserActions>) => {
+  // retrieve local connect method
+  const { method } = getLocalmethod()
+
+  // re-connect with the corresponding method
+  if (method === 'MetaMask' || method === 'WalletConnect') {
+    connectWallet(method, userDispatch)
+  }
+}
+
+const connectWallet = async (method: 'MetaMask' | 'WalletConnect', userDispatch: React.Dispatch<UserActions>) => {
+  // connect to corresponding wallet
+  let loginPayload: UserActionPayloads['LOG_IN'] | null
+  if (method === 'MetaMask') {
+    loginPayload = await connectMetaMask()
+  } else {
+    loginPayload = await connectWalletConnect(userDispatch)
+  }
+
+  if (!loginPayload) {
+    return
+  }
+
+  // set connection method to localstorage
+  setLocalmethod(method, loginPayload.address)
+
+  // update userState with connection payload
+  userDispatch({
+    type: UserActionTypes.login,
+    payload: loginPayload,
+  })
+}
 
 export default {
-  connectWallet: async (method: 'MetaMask' | 'WalletConenct', userDispatch: React.Dispatch<UserActions>) => {
-    // connect to corresponding wallet
-    let loginPayload: UserActionPayloads['LOG_IN'] | null
-    if (method === 'MetaMask') {
-      loginPayload = await connectMetaMask()
-    } else {
-      loginPayload = await connectWalletConnect()
-    }
-
-    if (!loginPayload) {
-      return
-    }
-
-    // set connection method to localstorage
-    setLocalmethod(method, loginPayload.address)
-
-    // update userStore with connection payload
-    userDispatch({
-      type: UserActionTypes.login,
-      payload: loginPayload,
-    })
-  },
+  connectWallet,
   disconnect,
   reconnect,
 }

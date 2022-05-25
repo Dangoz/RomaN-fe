@@ -1,4 +1,5 @@
-enum LS {
+// local storage store
+export enum LS {
   method = 'CONNECT_METHOD',
   address = 'CONNECT_ADDRESS',
 }

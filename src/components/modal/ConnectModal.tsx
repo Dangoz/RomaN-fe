@@ -14,7 +14,7 @@ const ConnectModal = ({ setActive }: ConnectModalProps) => {
   const { userState: user, userDispatch: dispatch } = useUser()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleConnect = async (method: 'MetaMask' | 'WalletConenct') => {
+  const handleConnect = async (method: 'MetaMask' | 'WalletConnect') => {
     if (isLoading) {
       return
     }
@@ -52,7 +52,7 @@ const ConnectModal = ({ setActive }: ConnectModalProps) => {
               color={'WalletConnect'}
               width={360}
               isLoading={isLoading}
-              onClick={() => handleConnect('WalletConenct')}
+              onClick={() => handleConnect('WalletConnect')}
             >
               <WalletConnect size={30} />
               <span>WalletConnect</span>

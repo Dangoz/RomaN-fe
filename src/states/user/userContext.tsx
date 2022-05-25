@@ -4,7 +4,7 @@ import { UserActions } from './actions'
 import userReducer from './reducer'
 
 // default unconnected data
-const initialState: IUser = {
+export const initialState: IUser = {
   address: '',
   provider: null,
 }
