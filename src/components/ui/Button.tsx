@@ -34,9 +34,7 @@ const Button = ({
 
   return (
     <div
-      className={`flex flex-wrap items-center justify-center gap-5 cursor-pointer rounded-sm
-    ${bgColorClass} ${colorClass} 
-    ${className}`}
+      className={`flex flex-wrap items-center justify-center gap-5 cursor-pointer rounded-sm ${bgColorClass} ${colorClass} ${className}`}
       style={{ width: `${width}px`, height: `${height}px` }}
       onClick={handleClick}
     >

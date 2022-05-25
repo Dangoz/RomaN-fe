@@ -1,17 +1,37 @@
+import { useEffect, useState } from 'react'
 import ModalWrapper from './ModalWrapper'
 import Button from '@/components/ui/Button'
-import Metamask from '@/components/icons/Metamask'
+import MetaMask from '@/components/icons/MetaMask'
 import WalletConnect from '@/components/icons/WalletConnect'
+import connect from '@/common/connect'
+import useUser from '@/hooks/useUser'
 
 interface ConnectModalProps {
-  active: boolean
   setActive: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ConnectModal = ({ active, setActive }: ConnectModalProps) => {
+const ConnectModal = ({ setActive }: ConnectModalProps) => {
+  const { userState: user, userDispatch: dispatch } = useUser()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleConnect = async (method: 'MetaMask' | 'WalletConenct') => {
+    if (isLoading) {
+      return
+    }
+    setIsLoading(true)
+    await connect.connectWallet(method, dispatch)
+    setActive(false)
+  }
+
+  useEffect(() => {
+    return () => {
+      setIsLoading(false)
+    }
+  }, [])
+
   return (
     <>
-      {active && (
+      {
         <ModalWrapper setActive={setActive}>
           <div
             className={
@@ -21,20 +41,25 @@ const ConnectModal = ({ active, setActive }: ConnectModalProps) => {
           >
             <div className={'mb-10 text-lg lg:text-2xl font-normal text-center'}>Welcome, Please Connect Wallet</div>
 
-            <Button color={'Metamask'} width={360}>
-              <Metamask size={30} />
-              <span>Metamask</span>
+            <Button color={'Metamask'} width={360} isLoading={isLoading} onClick={() => handleConnect('MetaMask')}>
+              <MetaMask size={30} />
+              <span>MetaMask</span>
             </Button>
 
             <div className="h-[15px]" />
 
-            <Button color={'WalletConnect'} width={360}>
+            <Button
+              color={'WalletConnect'}
+              width={360}
+              isLoading={isLoading}
+              onClick={() => handleConnect('WalletConenct')}
+            >
               <WalletConnect size={30} />
               <span>WalletConnect</span>
             </Button>
           </div>
         </ModalWrapper>
-      )}
+      }
     </>
   )
 }

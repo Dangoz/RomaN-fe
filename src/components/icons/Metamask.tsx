@@ -1,4 +1,4 @@
-const Metamask = ({ size }: { size: number }) => {
+const MetaMask = ({ size }: { size: number }) => {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -208,4 +208,4 @@ const Metamask = ({ size }: { size: number }) => {
   )
 }
 
-export default Metamask
+export default MetaMask
