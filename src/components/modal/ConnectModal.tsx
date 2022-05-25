@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import ModalWrapper from './ModalWrapper'
 import Button from '@/components/ui/Button'
-import MetaMask from '@/components/icons/MetaMask'
-import WalletConnect from '@/components/icons/WalletConnect'
+import MetaMask from '../icons/MetaMask'
+import WalletConnect from '../icons/WalletConnect'
 import connect from '@/common/connect'
 import useUser from '@/hooks/useUser'
 
