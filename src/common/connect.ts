@@ -2,7 +2,7 @@
 import React from 'react'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { ethers, Signer } from 'ethers'
-import { getLocalmethod, setLocalmethod } from './util'
+import { getLocalmethod, setLocalmethod } from './localStorage'
 import { UserActionPayloads, UserActionTypes, UserActions } from '@/states/user/actions'
 
 const connectMetaMask = async (): Promise<UserActionPayloads['LOG_IN'] | null> => {
