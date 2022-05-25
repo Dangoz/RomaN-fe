@@ -33,7 +33,7 @@ const Home: NextPage = () => {
       <NavBar />
       ADDRESS: {address}
       <br />
-      SIGNER: {answer}
+      BALANCE: {answer}
       <br />
     </>
   )
