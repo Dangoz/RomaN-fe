@@ -5,7 +5,7 @@ const config = {
     dataNetworkEndpoint: 'https://api.cybertino.io/connect/',
     namespace: 'RomaN',
     likeAlias: 'RomaNLIKE',
-    blockAlias: 'RomaNBlock',
+    blockAlias: 'RomaNREPORT',
   },
 }
 
