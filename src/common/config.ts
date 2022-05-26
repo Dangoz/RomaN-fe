@@ -1,2 +1,10 @@
-/* eslint-disable import/no-anonymous-default-export */
-export default {}
+const config = {
+  cyberConnect: {
+    dataNetworkEndpoint: 'https://api.cybertino.io/connect/',
+    namespace: 'RomaN',
+    likeAlias: 'RomaNLIKE',
+    blockAlias: 'RomaNBlock',
+  },
+}
+
+export default config

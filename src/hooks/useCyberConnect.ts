@@ -1,10 +1,6 @@
 import CyberConnect, { ConnectionType, Env, Blockchain } from '@cyberlab/cyberconnect'
 import { ethers } from 'ethers'
-
-export enum CC {
-  likeAlias = 'RomaN-like',
-  blockAlias = 'RomaN-block',
-}
+import config from '@/common/config'
 
 const useCyberConnect = (provider: ethers.providers.Web3Provider) => {
   const cyberconnect = new CyberConnect({
@@ -17,7 +13,7 @@ const useCyberConnect = (provider: ethers.providers.Web3Provider) => {
 
   const like = async (targetAddress: string) => {
     try {
-      await cyberconnect.connect(targetAddress, CC.likeAlias, ConnectionType.LIKE)
+      await cyberconnect.connect(targetAddress, config.cyberConnect.likeAlias, ConnectionType.LIKE)
     } catch (err) {
       console.error(err)
     }
@@ -25,7 +21,7 @@ const useCyberConnect = (provider: ethers.providers.Web3Provider) => {
 
   const block = async (targetAddress: string) => {
     try {
-      await cyberconnect.connect(targetAddress, CC.blockAlias, ConnectionType.REPORT)
+      await cyberconnect.connect(targetAddress, config.cyberConnect.blockAlias, ConnectionType.REPORT)
     } catch (err) {
       console.error(err)
     }
