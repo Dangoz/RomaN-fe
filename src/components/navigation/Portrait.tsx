@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
+import GradientWrapper from '../ui/GradientWrapper'
 
 interface PortraitProps {
   name: string

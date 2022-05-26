@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import ConnectModal from '../modal/ConnectModal'
 import Button from '../ui/Button'
 import Logo from '../icons/Logo'
 import useUser from '@/hooks/useUser'
 import PortraitMenu from './PortraitMenu'
 import connect from '@/common/connect'
+import Menu from './Menu'
 
 const NavBar = () => {
   const [showConnect, setShowConnect] = useState<boolean>(false)
@@ -29,6 +30,8 @@ const NavBar = () => {
 
       <div className="sticky h-[64px] border-b-2 flex items-center justify-between px-10 top-0">
         <Logo />
+
+        <Menu connected={address.length > 0 && provider != null} />
 
         <div>
           {address.length && provider ? (
