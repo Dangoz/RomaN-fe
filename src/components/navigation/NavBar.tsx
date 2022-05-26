@@ -28,7 +28,7 @@ const NavBar = () => {
     <>
       {showConnect && <ConnectModal setActive={setShowConnect} />}
 
-      <div className="sticky h-[64px] border-b-2 flex items-center justify-between px-10 top-0">
+      <div className="sticky h-[70px] flex items-center justify-between px-10 top-0">
         <Logo />
 
         <Menu connected={address.length > 0 && provider != null} />
