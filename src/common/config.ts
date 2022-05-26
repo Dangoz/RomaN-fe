@@ -1,4 +1,6 @@
 const config = {
+  protectedPath: ['/profile', '/converse', '/edit'],
+
   cyberConnect: {
     dataNetworkEndpoint: 'https://api.cybertino.io/connect/',
     namespace: 'RomaN',

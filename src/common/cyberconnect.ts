@@ -12,7 +12,13 @@ const cyberConnectClient: Client = createClient({
 })
 
 // retrieve people who LIKE the passed address within RomaN namespace; similar to getFollowers
-const getLikers = (address: string) => {}
+const getLikers = async (address: string) => {
+  const likersQuery = ``
+  const { data, error } = await cyberConnectClient.query(likersQuery).toPromise()
+  if (error != null) {
+    return alert(error)
+  }
+}
 
 // retrieve people whom the address LIKE within RomaN namespace; similar to getFollowings
 const getLikings = (address: string) => {}
