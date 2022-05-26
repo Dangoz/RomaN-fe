@@ -4,6 +4,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import { ethers, Signer } from 'ethers'
 import { getLocalmethod, setLocalmethod } from './localStorage'
 import { UserActionPayloads, UserActionTypes, UserActions } from '@/states/user/actions'
+import Router from 'next/router'
 
 const connectMetaMask = async (): Promise<UserActionPayloads['LOG_IN'] | null> => {
   if (!(window as any).ethereum) {
@@ -62,6 +63,9 @@ const disconnect = async (userDispatch: React.Dispatch<UserActions>) => {
     type: UserActionTypes['logout'],
     payload: {},
   })
+
+  // redirect back to home page upon disconnect
+  Router.push('/')
 }
 
 const reconnect = async (userDispatch: React.Dispatch<UserActions>) => {
