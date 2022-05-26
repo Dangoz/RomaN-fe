@@ -20,6 +20,7 @@ const ConnectModal = ({ setActive }: ConnectModalProps) => {
     }
     setIsLoading(true)
     await connect.connectWallet(method, dispatch)
+    setIsLoading(false)
     setActive(false)
   }
 

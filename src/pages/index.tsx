@@ -13,18 +13,16 @@ const Home: NextPage = () => {
     userState: { address, provider },
   } = useUser()
 
-  const [answer, setAnswer] = useState<string>('nope')
+  const [answer, setAnswer] = useState<string>('NaN')
 
   useEffect(() => {
-    if (provider === null) {
-      return
-    }
     ;(async () => {
-      const add = await provider?.getSigner().getAddress()
-      const signer = await provider.getSigner()
-      const wei = await signer.getBalance()
+      if (!provider) {
+        return setAnswer('NaN')
+      }
+      const wei = await provider?.getSigner().getBalance()
       const balance = await ethers.utils.formatEther(wei)
-      setAnswer(`${balance}`)
+      setAnswer(balance)
     })()
   }, [provider])
 
@@ -33,7 +31,7 @@ const Home: NextPage = () => {
       <NavBar />
       ADDRESS: {address}
       <br />
-      SIGNER: {answer}
+      BALANCE: {answer}
       <br />
     </>
   )
