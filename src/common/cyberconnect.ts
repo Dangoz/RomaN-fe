@@ -2,6 +2,7 @@
 
 import { createClient, Client } from '@urql/core'
 import { IConnection, IRecommendation } from '@/types/connection'
+import { ConnectionType } from '@cyberlab/cyberconnect'
 import config from './config'
 
 const cyberConnectClient: Client = createClient({
@@ -43,13 +44,13 @@ export default {
     const variables = {
       address,
       namespace: config.cyberConnect.namespace,
-      type: config.cyberConnect.likeAlias,
+      type: ConnectionType.LIKE,
       first: limit,
       after: `${limit * (page - 1) - 1}`,
     }
     const { data, error } = await cyberConnectClient.query(likersQuery, variables).toPromise()
     if (error != null) {
-      console.error(error)
+      console.error('getLikers:', error.message)
       return []
     }
 
@@ -86,13 +87,15 @@ export default {
     const variables = {
       address,
       namespace: config.cyberConnect.namespace,
-      type: config.cyberConnect.likeAlias,
+      type: ConnectionType.LIKE,
+      // namespace: "CyberConnect",
+      // type: ConnectionType.FOLLOW,
       first: limit,
       after: `${limit * (page - 1) - 1}`,
     }
     const { data, error } = await cyberConnectClient.query(likingsQuery, variables).toPromise()
     if (error != null) {
-      console.error(error)
+      console.error('getLikings:', error.message)
       return []
     }
 
@@ -123,13 +126,13 @@ export default {
     const variables = {
       address,
       namespace: config.cyberConnect.namespace,
-      type: config.cyberConnect.likeAlias,
+      type: ConnectionType.LIKE,
       first: limit,
       after: `${limit * (page - 1) - 1}`,
     }
     const { data, error } = await cyberConnectClient.query(matchesQuery, variables).toPromise()
     if (error != null) {
-      console.error(error)
+      console.error('getMatches:', error.message)
       return []
     }
 
@@ -166,13 +169,13 @@ export default {
     const variables = {
       address,
       namespace: config.cyberConnect.namespace,
-      type: config.cyberConnect.blockAlias,
+      type: ConnectionType.REPORT,
       first: limit,
       after: `${limit * (page - 1) - 1}`,
     }
     const { data, error } = await cyberConnectClient.query(blacklistQuery, variables).toPromise()
     if (error != null) {
-      console.error(error)
+      console.error('getBlackList:', error.message)
       return []
     }
 
@@ -215,7 +218,7 @@ export default {
     }
     const { data, error } = await cyberConnectClient.query(recommendationQuery, variables).toPromise()
     if (error != null || data.recommendations.result !== 'SUCCESS') {
-      console.error(error)
+      console.error('getRecommendation', error?.message)
       return []
     }
 

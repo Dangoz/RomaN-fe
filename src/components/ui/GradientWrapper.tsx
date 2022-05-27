@@ -23,7 +23,7 @@ const GradientWrapper = ({
 }: GradientWrapperProps) => {
   return (
     <div
-      className={`${className} flex justify-center items-center cursor-pointer bg-gradient-to-r from-purple-400 to-pink-600`}
+      className={`${className} flex justify-center items-center bg-gradient-to-r from-purple-400 to-pink-600`}
       style={{ width: `${width}px`, height: `${height}px`, borderRadius: `${borderRaidus}px` }}
     >
       <div
