@@ -51,7 +51,7 @@ const NavBar = () => {
 
         <div>
           {address.length && provider ? (
-            <PortraitMenu name={address} />
+            <PortraitMenu name={address} avatar={''} />
           ) : (
             <Button className="w-[200px] h-[36px]" onClick={() => setShowConnect(true)}>
               Connect
