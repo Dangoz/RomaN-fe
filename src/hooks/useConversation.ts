@@ -23,11 +23,11 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
         const list = await client.conversations.list()
         console.log('having talked to ' + list[0].peerAddress, client.keys)
 
-        const convo = await client.conversations.newConversation(peerAddress)
+        const convo = await client.conversations.newConversation(list[0].peerAddress)
         setConversation(convo)
         console.log('connection success ' + convo.peerAddress)
       } catch (err) {
-        console.error((err as Error).message)
+        console.log((err as Error).message)
       }
     }
     initConversation()
