@@ -2,6 +2,7 @@ import useXMTP from './useXMTP'
 import { Stream, Message, Conversation } from '@xmtp/xmtp-js'
 import { useState, useCallback, useEffect } from 'react'
 import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
+import { ethers } from 'ethers'
 
 const useConversation = (peerAddress: string, onMessageCallback?: () => void) => {
   const {
@@ -15,19 +16,15 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
   // initialize the current active conversation
   useEffect(() => {
     const initConversation = async () => {
-      console.log('new peerAddress: ' + peerAddress)
       if (!client) {
         return
       }
       try {
-        const list = await client.conversations.list()
-        console.log('having talked to ' + list[0].peerAddress, client.keys)
-
-        const convo = await client.conversations.newConversation(peerAddress)
+        const target = captializeAddress(peerAddress)
+        const convo = await client.conversations.newConversation(target)
         setConversation(convo)
-        console.log('connection success ' + convo.peerAddress)
       } catch (err) {
-        console.error((err as Error).message)
+        console.log((err as Error).message)
       }
     }
     initConversation()
@@ -66,7 +63,7 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
         return
       }
       setIsLoading(true)
-      const existingMessages = await conversation.messages({})
+      const existingMessages = await conversation.messages({ pageSize: 100 })
       const messageStorePayload: XMTPActionPayloads[XMTPActionTypes.syncMessages] = {
         peerAddress,
         messages: existingMessages,
@@ -108,7 +105,6 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
       if (!conversation) {
         return
       }
-      alert(`message sending: ${message}`)
       await conversation.send(message)
     },
     [conversation],
@@ -123,3 +119,8 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
 }
 
 export default useConversation
+
+const captializeAddress = (address: string): string => {
+  const checkSumAddress = ethers.utils.getAddress(address)
+  return checkSumAddress
+}

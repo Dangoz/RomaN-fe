@@ -19,10 +19,10 @@ const xmtpReducer: Reducer<IXMTP, XMTPActions> = (state: IXMTP, action: XMTPActi
       const existingMessages = messageStore[peerAddress] || []
       const newMessages = filterNewMessages(existingMessages, messages)
 
-      const newMessageStore: IMessageStore = newMessages
+      const newMessageStore: IMessageStore = newMessages.length
         ? { ...messageStore, [peerAddress]: existingMessages.concat(newMessages) }
         : messageStore
-      return { ...state, newMessageStore }
+      return { ...state, messageStore: newMessageStore }
     default:
       return state
   }
