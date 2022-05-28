@@ -88,8 +88,6 @@ export default {
       address,
       namespace: config.cyberConnect.namespace,
       type: ConnectionType.LIKE,
-      // namespace: "CyberConnect",
-      // type: ConnectionType.FOLLOW,
       first: limit,
       after: `${limit * (page - 1) - 1}`,
     }

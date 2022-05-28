@@ -7,7 +7,7 @@ import useUser from '@/hooks/useUser'
 
 const MatchesBox = () => {
   const {
-    userState: { address },
+    userState: { address, provider },
   } = useUser()
   const [page, setPage] = useState<number>(1)
   const [matches, setMatches] = useState<IConnection[]>([])

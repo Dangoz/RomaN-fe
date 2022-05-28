@@ -1,10 +1,9 @@
 import IUser from '@/types/user'
 import { UserActionTypes, UserActions } from './actions'
 import { initialState } from './userContext'
+import Reducer from '../reducerType'
 
-type Reducer<S, A> = (state: S, action: A) => S
-
-const userReducer: Reducer<IUser, UserActions> = function (state: IUser, action: UserActions) {
+const userReducer: Reducer<IUser, UserActions> = (state: IUser, action: UserActions) => {
   switch (action.type) {
     case UserActionTypes.login:
       return { ...state, ...action.payload }

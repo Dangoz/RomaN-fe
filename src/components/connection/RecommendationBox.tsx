@@ -31,6 +31,8 @@ const RecommendationBox = () => {
     })()
   }, [handleRecommendation])
 
+  const [input, setInput] = useState('')
+
   return (
     <ConnectionWrapper>
       <div>
@@ -45,13 +47,23 @@ const RecommendationBox = () => {
           </Button> */}
             <Button
               onClick={() => {
-                block(rec.address)
+                like(rec.address)
               }}
             >
-              BLOCK
+              Like / Pursue
             </Button>
           </div>
         ))}
+        <div>
+          <input value={input} onChange={(e) => setInput(e.target.value)} />
+          <Button
+            onClick={() => {
+              like(input)
+            }}
+          >
+            Like / Pursue
+          </Button>
+        </div>
       </div>
     </ConnectionWrapper>
   )
