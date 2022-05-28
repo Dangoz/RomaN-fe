@@ -13,7 +13,7 @@ const connectedItems: {
 
 const Menu = ({ connected }: { connected: boolean }) => {
   return (
-    <>
+    <div className=" z-50">
       <GradientWrapper className="justify-center" borderRaidus={20} width={300} hover={false}>
         <>
           {connectedItems.map(
@@ -30,7 +30,7 @@ const Menu = ({ connected }: { connected: boolean }) => {
           )}
         </>
       </GradientWrapper>
-    </>
+    </div>
   )
 }
 
