@@ -1,7 +1,7 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import NavBar from '@/components/navigation/NavBar'
-import MatchesBox from '@/components/connection/MatchesBox'
+import ConverseContainer from '@/components/converse/ConverseContainer'
 
 const Converse: NextPage = () => {
   return (
@@ -9,7 +9,7 @@ const Converse: NextPage = () => {
       <NavBar />
       <div>Converse</div>
       <div className="ml-2">
-        <MatchesBox />
+        <ConverseContainer />
       </div>
     </>
   )

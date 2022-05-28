@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import ConnectModal from '../modal/ConnectModal'
 import Button from '../ui/Button'
 import Logo from '../icons/Logo'
@@ -44,7 +44,19 @@ const NavBar = () => {
         }
         initXMTP()
       }
+    }
+  }, [provider, address, xmtpAdress, xmtpDispatch, xmtpSigner])
 
+  const reconnect = useCallback(async () => {
+    // if user is unconnected, attempt reconnect
+    if (!address || !provider) {
+      await connect.reconnect(userDispatch)
+    }
+  }, [address, provider, userDispatch])
+
+  useEffect(() => {
+    // check for whether user is still connected
+    if (address.length > 0 && provider != null) {
       return
     }
 
@@ -53,14 +65,7 @@ const NavBar = () => {
     if (config.protectedPath.includes(path)) {
       Router.push('/')
     }
-  }, [address, provider, xmtpAdress, xmtpSigner, xmtpDispatch])
-
-  const reconnect = useCallback(async () => {
-    // if user is unconnected, attempt reconnect
-    if (!address || !provider) {
-      await connect.reconnect(userDispatch)
-    }
-  }, [address, provider, userDispatch])
+  }, [address, provider])
 
   useEffect(() => {
     reconnect()
@@ -71,10 +76,13 @@ const NavBar = () => {
       {showConnect && <ConnectModal setActive={setShowConnect} />}
 
       <div className="sticky h-[70px] flex items-center justify-between px-10 top-2">
-        <Logo />
-
+        <div className="w-60">
+          <Logo />
+        </div>
+        {/* {"XMTP:" + xmtpAdress} */}
         <Menu connected={address.length > 0 && provider != null} />
-        <div>
+
+        <div className="w-60 pl-[20px]">
           {address.length && provider ? (
             <PortraitMenu name={address} avatar={''} />
           ) : (

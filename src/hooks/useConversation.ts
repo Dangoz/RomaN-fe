@@ -15,10 +15,20 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
   // initialize the current active conversation
   useEffect(() => {
     const initConversation = async () => {
+      console.log('new peerAddress: ' + peerAddress)
       if (!client) {
         return
       }
-      setConversation(await client.conversations.newConversation(peerAddress))
+      try {
+        const list = await client.conversations.list()
+        console.log('having talked to ' + list[0].peerAddress, client.keys)
+
+        const convo = await client.conversations.newConversation(peerAddress)
+        setConversation(convo)
+        console.log('connection success ' + convo.peerAddress)
+      } catch (err) {
+        console.error((err as Error).message)
+      }
     }
     initConversation()
   }, [client, peerAddress])
@@ -88,7 +98,8 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
 
   // get messages of peerAddress from messageStore
   const getMessage = (peerAddress: string): Message[] => {
-    return messageStore[peerAddress]
+    const messages = messageStore[peerAddress] || []
+    return messages
   }
 
   // send message to current active conversation
@@ -97,6 +108,7 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
       if (!conversation) {
         return
       }
+      alert(`message sending: ${message}`)
       await conversation.send(message)
     },
     [conversation],
