@@ -5,6 +5,12 @@ import useCyberConnect from '@/hooks/useCyberConnect'
 import useUser from '@/hooks/useUser'
 import Button from '@/components/ui/Button'
 
+import LikersBox from '@/components/connection/LikersBox'
+import BlackListBox from '@/components/connection/BlackListBox'
+import LikingsBox from '@/components/connection/LikingsBox'
+import MatchesBox from '@/components/connection/MatchesBox'
+import RecommendationBox from '@/components/connection/RecommendationBox'
+
 const Explore: NextPage = () => {
   const {
     userState: { address, provider },
@@ -16,7 +22,13 @@ const Explore: NextPage = () => {
       <div>explore : {address}</div>
       <br />
 
-      <Button></Button>
+      <div className="ml-8">
+        <LikersBox />
+        <LikingsBox />
+        <BlackListBox />
+        <MatchesBox />
+        <RecommendationBox />
+      </div>
     </>
   )
 }

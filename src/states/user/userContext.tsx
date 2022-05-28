@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react'
 import { UserActions } from './actions'
 import userReducer from './reducer'
 
-// default unconnected data
+// default unconnected data for user/wallet
 export const initialState: IUser = {
   address: '',
   provider: null,

@@ -11,7 +11,10 @@ interface ConnectModalProps {
 }
 
 const ConnectModal = ({ setActive }: ConnectModalProps) => {
-  const { userState: user, userDispatch: dispatch } = useUser()
+  const {
+    userState: {},
+    userDispatch,
+  } = useUser()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleConnect = async (method: 'MetaMask' | 'WalletConnect') => {
@@ -19,7 +22,7 @@ const ConnectModal = ({ setActive }: ConnectModalProps) => {
       return
     }
     setIsLoading(true)
-    await connect.connectWallet(method, dispatch)
+    await connect.connectWallet(method, userDispatch)
     setIsLoading(false)
     setActive(false)
   }

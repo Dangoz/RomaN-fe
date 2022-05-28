@@ -20,9 +20,11 @@ const Menu = ({ connected }: { connected: boolean }) => {
             (item, index) =>
               (connected || item.name == 'Explore') && (
                 <Link key={index} href={item.link}>
-                  <Button width={80} height={54} className="mx-1">
-                    {item.name}
-                  </Button>
+                  <a>
+                    <Button width={80} height={54} className="mx-1">
+                      {item.name}
+                    </Button>
+                  </a>
                 </Link>
               ),
           )}
