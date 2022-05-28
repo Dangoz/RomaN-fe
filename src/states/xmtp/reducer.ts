@@ -22,6 +22,8 @@ const xmtpReducer: Reducer<IXMTP, XMTPActions> = (state: IXMTP, action: XMTPActi
       const newMessageStore: IMessageStore = newMessages.length
         ? { ...messageStore, [peerAddress]: existingMessages.concat(newMessages) }
         : messageStore
+
+      console.log('NEW MESSAGE STORE:', JSON.stringify(newMessageStore, null, 2))
       return { ...state, messageStore: newMessageStore }
     default:
       return state

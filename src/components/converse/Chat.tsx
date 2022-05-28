@@ -34,9 +34,11 @@ const Chat = ({ peerAddress }: ChatProps) => {
       <div className="h-[60px] border-b-2">{peerAddress}</div>
 
       {/* middle - message window */}
-      <div className="w-full h-[450px] flex flex-col items-center justify-center overflow-y-scroll" ref={messagesRef}>
+      <div className="w-full h-[450px] flex flex-col overflow-y-scroll p-2" ref={messagesRef}>
         {isLoading ? (
-          <Spinner />
+          <div className="w-full h-[450px] flex justify-center items-center">
+            <Spinner />
+          </div>
         ) : (
           messages.map((msg, index) => (
             <Message key={index} message={msg.content} self={msg.senderAddress === address} />
