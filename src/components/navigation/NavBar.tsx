@@ -28,19 +28,6 @@ const NavBar = () => {
     }
   }, [address, provider, userDispatch])
 
-  // useEffect(() => {
-  //   // check for whether user is still connected
-  //   if (address.length > 0 && provider != null) {
-  //     return
-  //   }
-
-  //   // if not and accessing protected path, redirect to '/'
-  //   const path = Router.pathname
-  //   if (config.protectedPath.includes(path)) {
-  //     Router.push('/')
-  //   }
-  // }, [address, provider])
-
   useEffect(() => {
     reconnect()
   }, [reconnect])
