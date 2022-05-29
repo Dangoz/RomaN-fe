@@ -35,7 +35,7 @@ const Chat = ({ peerAddress }: ChatProps) => {
 
       {/* middle - message window */}
       <div className="w-full h-[450px] flex flex-col overflow-y-scroll p-2" ref={messagesRef}>
-        {isLoading ? (
+        {isLoading && !messages.length ? (
           <div className="w-full h-[450px] flex justify-center items-center">
             <Spinner />
           </div>
