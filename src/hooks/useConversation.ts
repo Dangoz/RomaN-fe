@@ -3,6 +3,7 @@ import { Stream, Message, Conversation } from '@xmtp/xmtp-js'
 import { useState, useCallback, useEffect } from 'react'
 import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
 import { ethers } from 'ethers'
+import handleError from '@/common/error'
 
 const useConversation = (peerAddress: string, onMessageCallback?: () => void) => {
   const {
@@ -26,6 +27,7 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
         setConversation(convo)
       } catch (err) {
         setConversation(null)
+        handleError(err as Error)
         console.log((err as Error).message)
       }
     }
