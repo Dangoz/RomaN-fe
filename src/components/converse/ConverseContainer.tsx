@@ -49,7 +49,7 @@ const ConverseContainer = () => {
 
   return (
     <div className="relative w-screen h-auto flex items-center justify-center mt-5">
-      <GradientWrapper width={800} height={600} borderRaidus={10} hover={false} className="h-10 w-10">
+      <GradientWrapper width={800} height={600} borderRaidus={10} hover={false}>
         <Matches setPeerAddress={setPeerAddress} />
         <Chat peerAddress={peerAddress} />
       </GradientWrapper>

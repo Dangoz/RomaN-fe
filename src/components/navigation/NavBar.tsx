@@ -36,7 +36,7 @@ const NavBar = () => {
     <>
       {showConnect && <ConnectModal setActive={setShowConnect} />}
 
-      <div className="sticky h-[70px] flex items-center justify-between px-10 top-2">
+      <div className="sticky h-[70px] flex items-center justify-between px-10 top-2 z-50">
         <div className="w-60">
           <Logo />
         </div>

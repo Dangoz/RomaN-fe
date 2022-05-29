@@ -1,4 +1,5 @@
 const config = {
+  mockAddress: process.env.NEXT_PUBLIC_MOCK_ADDRESS,
   protectedPath: ['/profile', '/converse', '/edit'],
   infuraID: process.env.NEXT_PUBLIC_INFURA_ID,
 
