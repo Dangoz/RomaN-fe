@@ -6,7 +6,7 @@ import useUser from '@/hooks/useUser'
 import useXMTP from '@/hooks/useXMTP'
 import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
 import { Client } from '@xmtp/xmtp-js'
-import { handleWarning } from '@/common/error'
+import { handleWarning, handleError } from '@/common/error'
 
 const ConverseContainer = () => {
   const [peerAddress, setPeerAddress] = useState<string>('')
@@ -27,16 +27,20 @@ const ConverseContainer = () => {
         // connect user with XMTP as well
         const initXMTP = async () => {
           const signer = provider.getSigner()
-          const xmtpClient = await Client.create(signer)
-          const xmtpConnectPayload: XMTPActionPayloads['CONNECT'] = {
-            address: address,
-            signer: signer,
-            client: xmtpClient,
+          try {
+            const xmtpClient = await Client.create(signer)
+            const xmtpConnectPayload: XMTPActionPayloads['CONNECT'] = {
+              address: address,
+              signer: signer,
+              client: xmtpClient,
+            }
+            xmtpDispatch({
+              type: XMTPActionTypes.connect,
+              payload: xmtpConnectPayload,
+            })
+          } catch (err) {
+            handleError(err as Error)
           }
-          xmtpDispatch({
-            type: XMTPActionTypes.connect,
-            payload: xmtpConnectPayload,
-          })
         }
         initXMTP()
       }
