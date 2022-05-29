@@ -1,5 +1,6 @@
 const config = {
   protectedPath: ['/profile', '/converse', '/edit'],
+  infuraID: process.env.NEXT_PUBLIC_INFURA_ID,
 
   cyberConnect: {
     dataNetworkEndpoint: 'https://api.cybertino.io/connect/',

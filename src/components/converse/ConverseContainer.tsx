@@ -2,9 +2,46 @@ import React, { useState, useEffect } from 'react'
 import GradientWrapper from '../ui/GradientWrapper'
 import Matches from './Matches'
 import Chat from './Chat'
+import useUser from '@/hooks/useUser'
+import useXMTP from '@/hooks/useXMTP'
+import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
+import { Client } from '@xmtp/xmtp-js'
+import { handleWarning } from '@/common/error'
 
 const ConverseContainer = () => {
   const [peerAddress, setPeerAddress] = useState<string>('')
+  const {
+    userState: { address, provider },
+  } = useUser()
+  const {
+    xmtpState: { address: xmtpAdress, signer: xmtpSigner, client },
+    xmtpDispatch,
+  } = useXMTP()
+
+  useEffect(() => {
+    // check for whether user is still connected
+    if (address.length > 0 && provider != null) {
+      // when user/wallet is connected, check for XMTP connection
+      if (xmtpAdress === '' || xmtpSigner === null) {
+        handleWarning('Connecting to XMTP network, please sign...')
+        // connect user with XMTP as well
+        const initXMTP = async () => {
+          const signer = provider.getSigner()
+          const xmtpClient = await Client.create(signer)
+          const xmtpConnectPayload: XMTPActionPayloads['CONNECT'] = {
+            address: address,
+            signer: signer,
+            client: xmtpClient,
+          }
+          xmtpDispatch({
+            type: XMTPActionTypes.connect,
+            payload: xmtpConnectPayload,
+          })
+        }
+        initXMTP()
+      }
+    }
+  }, [provider, address, xmtpAdress, xmtpDispatch, xmtpSigner])
 
   return (
     <div className="relative w-screen h-auto flex items-center justify-center mt-5">

@@ -3,6 +3,7 @@ import { Stream, Message, Conversation } from '@xmtp/xmtp-js'
 import { useState, useCallback, useEffect } from 'react'
 import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
 import { ethers } from 'ethers'
+import { handleError } from '@/common/error'
 
 const useConversation = (peerAddress: string, onMessageCallback?: () => void) => {
   const {
@@ -16,45 +17,22 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
   // initialize the current active conversation
   useEffect(() => {
     const initConversation = async () => {
-      if (!client) {
+      // valid client & peeraddress are required for establishing conversation
+      if (!client || !peerAddress) {
         return
       }
       try {
-        const target = captializeAddress(peerAddress)
+        const target = checkSumAddress(peerAddress)
         const convo = await client.conversations.newConversation(target)
         setConversation(convo)
       } catch (err) {
+        setConversation(null)
+        handleError(err as Error)
         console.log((err as Error).message)
       }
     }
     initConversation()
   }, [client, peerAddress])
-
-  // initialize message stream for current active conversation, and sync messages to context store
-  useEffect(() => {
-    const initStream = async () => {
-      if (!conversation) {
-        return
-      }
-      const stream = await conversation.streamMessages()
-      setStream(stream)
-      for await (const message of stream) {
-        const messageStorePayload: XMTPActionPayloads[XMTPActionTypes.syncMessages] = {
-          peerAddress,
-          messages: [message],
-        }
-        xmtpDispatch({
-          type: XMTPActionTypes.syncMessages,
-          payload: messageStorePayload,
-        })
-
-        if (onMessageCallback) {
-          onMessageCallback()
-        }
-      }
-    }
-    initStream()
-  }, [conversation, peerAddress, xmtpDispatch, onMessageCallback])
 
   // upon new conversation, retrieve all messages of current active conversation
   useEffect(() => {
@@ -62,10 +40,11 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
       if (!conversation) {
         return
       }
+      // load if no existing messages
       setIsLoading(true)
       const existingMessages = await conversation.messages({ pageSize: 100 })
       const messageStorePayload: XMTPActionPayloads[XMTPActionTypes.syncMessages] = {
-        peerAddress,
+        peerAddress: conversation.peerAddress,
         messages: existingMessages,
       }
       xmtpDispatch({
@@ -79,7 +58,34 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
       setIsLoading(false)
     }
     initConversation()
-  }, [conversation, peerAddress, xmtpDispatch, onMessageCallback])
+  }, [conversation, xmtpDispatch, onMessageCallback])
+
+  // initialize message stream for current active conversation, and sync messages to context store
+  useEffect(() => {
+    const initStream = async () => {
+      if (!conversation) {
+        return
+      }
+      const stream = await conversation.streamMessages()
+      setStream(stream)
+
+      for await (const message of stream) {
+        const messageStorePayload: XMTPActionPayloads[XMTPActionTypes.syncMessages] = {
+          peerAddress: conversation.peerAddress,
+          messages: [message],
+        }
+        xmtpDispatch({
+          type: XMTPActionTypes.syncMessages,
+          payload: messageStorePayload,
+        })
+
+        if (onMessageCallback) {
+          onMessageCallback()
+        }
+      }
+    }
+    initStream()
+  }, [conversation, xmtpDispatch, onMessageCallback])
 
   // close message stream on peerAdress change
   useEffect(() => {
@@ -91,13 +97,16 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
     }
     closeStream()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [peerAddress])
+  }, [conversation])
 
   // get messages of peerAddress from messageStore
-  const getMessage = (peerAddress: string): Message[] => {
-    const messages = messageStore[peerAddress] || []
+  const getMessage = useCallback((): Message[] => {
+    if (!conversation) {
+      return []
+    }
+    const messages = messageStore[conversation.peerAddress] || []
     return messages
-  }
+  }, [conversation, messageStore])
 
   // send message to current active conversation
   const sendMessage = useCallback(
@@ -112,15 +121,15 @@ const useConversation = (peerAddress: string, onMessageCallback?: () => void) =>
 
   return {
     conversation,
-    messages: getMessage(peerAddress),
+    messages: getMessage(),
     sendMessage,
-    isLoading,
+    isLoading, // loading state for getting existing messages of a conversation
   }
 }
 
 export default useConversation
 
-const captializeAddress = (address: string): string => {
+const checkSumAddress = (address: string): string => {
   const checkSumAddress = ethers.utils.getAddress(address)
   return checkSumAddress
 }

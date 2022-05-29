@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2'
 
-const handleError = (err: Error) => {
+export const handleError = (err: Error) => {
   // display error through a popup
   Swal.fire({
     title: 'Error',
@@ -9,4 +9,11 @@ const handleError = (err: Error) => {
   })
 }
 
-export default handleError
+export const handleWarning = (message: string) => {
+  // display warning through a popup
+  Swal.fire({
+    title: 'Caution',
+    text: message,
+    icon: 'warning',
+  })
+}

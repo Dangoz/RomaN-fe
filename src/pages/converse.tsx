@@ -7,7 +7,6 @@ const Converse: NextPage = () => {
   return (
     <>
       <NavBar />
-      <div>Converse</div>
       <div className="ml-2">
         <ConverseContainer />
       </div>

@@ -19,13 +19,11 @@ const Explore: NextPage = () => {
   return (
     <>
       <NavBar />
-      <div>explore : {address}</div>
-      <br />
 
       <div className="ml-8">
-        <LikersBox />
+        {/* <LikersBox />
         <LikingsBox />
-        <BlackListBox />
+        <BlackListBox /> */}
         <MatchesBox />
         <RecommendationBox />
       </div>
