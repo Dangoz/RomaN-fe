@@ -16,12 +16,9 @@ const Chat = ({ peerAddress }: ChatProps) => {
     userState: { address },
   } = useUser()
 
-  // const [input, setInput] = useState<string>('')
-
   const handleSend = useCallback(
     (input: string) => {
       sendMessage(input)
-      // setInput('')
     },
     [sendMessage],
   )

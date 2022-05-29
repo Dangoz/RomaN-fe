@@ -2,9 +2,10 @@ import CyberConnect, { ConnectionType, Env, Blockchain } from '@cyberlab/cyberco
 import { ethers } from 'ethers'
 import config from '@/common/config'
 import { useEffect, useState } from 'react'
+import { handleWarning } from '@/common/error'
 
 const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
-  const [cyberconnect, setCyberconnect] = useState<CyberConnect>()
+  const [cyberconnect, setCyberconnect] = useState<CyberConnect | null>(null)
 
   useEffect(() => {
     if (!provider) {

@@ -6,7 +6,7 @@ const TextInput = ({ handleSend }: { handleSend: (input: string) => void }) => {
     <div className="w-full h-[90px] flex justify-center items-center border-t-2">
       <input
         type={'text'}
-        className="mx-2 w-[300px] h-[40px] border-2 rounded"
+        className="mx-2 w-[300px] h-[40px] border-2 rounded px-3"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => {

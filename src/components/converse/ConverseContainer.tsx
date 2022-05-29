@@ -6,6 +6,7 @@ import useUser from '@/hooks/useUser'
 import useXMTP from '@/hooks/useXMTP'
 import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
 import { Client } from '@xmtp/xmtp-js'
+import { handleWarning } from '@/common/error'
 
 const ConverseContainer = () => {
   const [peerAddress, setPeerAddress] = useState<string>('')
@@ -22,6 +23,7 @@ const ConverseContainer = () => {
     if (address.length > 0 && provider != null) {
       // when user/wallet is connected, check for XMTP connection
       if (xmtpAdress === '' || xmtpSigner === null) {
+        handleWarning('Connecting to XMTP network, please sign...')
         // connect user with XMTP as well
         const initXMTP = async () => {
           const signer = provider.getSigner()
