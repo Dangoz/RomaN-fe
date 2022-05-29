@@ -2,7 +2,7 @@ import CyberConnect, { ConnectionType, Env, Blockchain } from '@cyberlab/cyberco
 import { ethers } from 'ethers'
 import config from '@/common/config'
 import { useEffect, useState } from 'react'
-import { handleWarning } from '@/common/error'
+import { handleError, handleWarning, handleSuccess } from '@/common/alert'
 
 const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
   const [cyberconnect, setCyberconnect] = useState<CyberConnect | null>(null)
@@ -24,6 +24,7 @@ const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
   const like = async (targetAddress: string) => {
     try {
       await cyberconnect?.connect(targetAddress, config.cyberConnect.likeAlias, ConnectionType.LIKE)
+      handleSuccess(`Just LIKED ${targetAddress}`)
     } catch (err) {
       console.error(err)
     }

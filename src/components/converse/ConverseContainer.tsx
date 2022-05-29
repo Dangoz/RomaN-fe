@@ -6,7 +6,7 @@ import useUser from '@/hooks/useUser'
 import useXMTP from '@/hooks/useXMTP'
 import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
 import { Client } from '@xmtp/xmtp-js'
-import { handleWarning, handleError } from '@/common/error'
+import { handleWarning, handleError } from '@/common/alert'
 
 const ConverseContainer = () => {
   const [peerAddress, setPeerAddress] = useState<string>('')

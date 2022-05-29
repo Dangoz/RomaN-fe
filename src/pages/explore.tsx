@@ -11,7 +11,7 @@ import LikingsBox from '@/components/connection/LikingsBox'
 import MatchesBox from '@/components/connection/MatchesBox'
 import RecommendationBox from '@/components/connection/RecommendationBox'
 
-import ExploreContaienr from '@/components/explore/ExploreContaienr'
+import ExploreContaienr from '@/components/explore/ExploreContainer'
 
 const Explore: NextPage = () => {
   const {
