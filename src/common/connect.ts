@@ -5,6 +5,7 @@ import { ethers, Signer } from 'ethers'
 import { getLocalmethod, setLocalmethod } from './localStorage'
 import { UserActionPayloads, UserActionTypes, UserActions } from '@/states/user/actions'
 import Router from 'next/router'
+import config from './config'
 
 const connectMetaMask = async (): Promise<UserActionPayloads['LOG_IN'] | null> => {
   if (!(window as any).ethereum) {
@@ -13,7 +14,14 @@ const connectMetaMask = async (): Promise<UserActionPayloads['LOG_IN'] | null> =
 
   const metamaskEthereum = (window as any).ethereum
   const provider = new ethers.providers.Web3Provider(metamaskEthereum)
-  await provider.send('eth_requestAccounts', [])
+
+  try {
+    await provider.send('eth_requestAccounts', [])
+  } catch (err) {
+    console.error((err as Error).message)
+    return null
+  }
+
   const accounts = await metamaskEthereum.request({
     method: 'eth_requestAccounts',
   })
@@ -26,7 +34,7 @@ const connectWalletConnect = async (
   userDispatch: React.Dispatch<UserActions>,
 ): Promise<UserActionPayloads['LOG_IN'] | null> => {
   const walletConnectProvider = new WalletConnectProvider({
-    infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    infuraId: config.infuraID,
     pollingInterval: 60 * 1000,
   })
 
@@ -74,11 +82,17 @@ const reconnect = async (userDispatch: React.Dispatch<UserActions>) => {
 
   // re-connect with the corresponding method
   if (method === 'MetaMask' || method === 'WalletConnect') {
-    connectWallet(method, userDispatch)
+    const status = await connectWallet(method, userDispatch)
+    if (!status) {
+      Router.push('/')
+    }
   }
 }
 
-const connectWallet = async (method: 'MetaMask' | 'WalletConnect', userDispatch: React.Dispatch<UserActions>) => {
+const connectWallet = async (
+  method: 'MetaMask' | 'WalletConnect',
+  userDispatch: React.Dispatch<UserActions>,
+): Promise<Boolean> => {
   // connect to corresponding wallet
   let loginPayload: UserActionPayloads['LOG_IN'] | null
   if (method === 'MetaMask') {
@@ -86,9 +100,8 @@ const connectWallet = async (method: 'MetaMask' | 'WalletConnect', userDispatch:
   } else {
     loginPayload = await connectWalletConnect(userDispatch)
   }
-
   if (!loginPayload) {
-    return
+    return false // loginPayload not found, connect failed
   }
 
   // set connection method to localstorage
@@ -99,6 +112,7 @@ const connectWallet = async (method: 'MetaMask' | 'WalletConnect', userDispatch:
     type: UserActionTypes.login,
     payload: loginPayload,
   })
+  return true // connect success
 }
 
 export default {

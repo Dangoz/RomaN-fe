@@ -7,7 +7,7 @@ interface MessageProps {
 const Message = ({ message, self }: MessageProps) => {
   return (
     <div className={'relative w-full my-2 flex ' + (self ? ' justify-end' : ' justify-start')}>
-      <div className={'w-[200px] h-full px-6 py-2 rounded ' + (self ? ' bg-green-300' : ' bg-slate-300')}>
+      <div className={'w-[200px] h-full px-6 py-2 rounded break-words ' + (self ? ' bg-green-300' : ' bg-slate-300')}>
         {message}
       </div>
     </div>

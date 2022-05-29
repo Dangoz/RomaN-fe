@@ -1,11 +1,11 @@
 import Swal from 'sweetalert2'
 
-const handleError = (err: Error) => {
+const handleError = (err: Error, type: string = 'error') => {
   // display error through a popup
   Swal.fire({
     title: 'Error',
     text: err.message,
-    icon: 'error',
+    icon: type === 'error' ? 'error' : 'warning',
   })
 }
 
