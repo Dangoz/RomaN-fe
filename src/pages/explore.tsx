@@ -11,6 +11,8 @@ import LikingsBox from '@/components/connection/LikingsBox'
 import MatchesBox from '@/components/connection/MatchesBox'
 import RecommendationBox from '@/components/connection/RecommendationBox'
 
+import ExploreContaienr from '@/components/explore/ExploreContaienr'
+
 const Explore: NextPage = () => {
   const {
     userState: { address, provider },
@@ -20,13 +22,7 @@ const Explore: NextPage = () => {
     <>
       <NavBar />
 
-      <div className="ml-8">
-        {/* <LikersBox />
-        <LikingsBox />
-        <BlackListBox /> */}
-        <MatchesBox />
-        <RecommendationBox />
-      </div>
+      <ExploreContaienr />
     </>
   )
 }
