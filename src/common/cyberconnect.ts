@@ -223,4 +223,32 @@ export default {
     const recommendations = <IRecommendation[]>data.recommendations.data.list
     return recommendations
   },
+
+  // retrieve links (followers/followings) count for the passed in address
+  getLinksCount: async (address: string): Promise<{ followerCount: number; followingCount: number }> => {
+    const linksCountQuery = `query FullIdentityQuery(
+      $address: String! = "0x148d59faf10b52063071eddf4aaf63a395f2d41c"
+      $namespace: String = "CyberConnect"
+      $type: ConnectionType = FOLLOW
+    ) {
+      identity(address: $address) {
+        followingCount(namespace: $namespace, type: $type)
+        followerCount(namespace: $namespace, type: $type)
+      }
+    }`
+    const variables = {
+      address,
+      namespace: '', // count links across all namespace
+      $type: ConnectionType.FOLLOW,
+    }
+    const { data, error } = await cyberConnectClient.query(linksCountQuery, variables).toPromise()
+    if (error != null) {
+      console.error('getLinksCount:', error.message)
+      return { followerCount: 0, followingCount: 0 }
+    }
+
+    // const linksCount = <{ followerCount: number, followingCount: number }>data.identity
+    const { followerCount, followingCount } = data.identity
+    return { followerCount, followingCount }
+  },
 }

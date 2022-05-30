@@ -6,7 +6,7 @@ import useUser from '@/hooks/useUser'
 import useXMTP from '@/hooks/useXMTP'
 import { XMTPActionPayloads, XMTPActionTypes } from '@/states/xmtp/actions'
 import { Client } from '@xmtp/xmtp-js'
-import { handleWarning } from '@/common/error'
+import { handleWarning, handleError } from '@/common/alert'
 
 const ConverseContainer = () => {
   const [peerAddress, setPeerAddress] = useState<string>('')
@@ -27,16 +27,20 @@ const ConverseContainer = () => {
         // connect user with XMTP as well
         const initXMTP = async () => {
           const signer = provider.getSigner()
-          const xmtpClient = await Client.create(signer)
-          const xmtpConnectPayload: XMTPActionPayloads['CONNECT'] = {
-            address: address,
-            signer: signer,
-            client: xmtpClient,
+          try {
+            const xmtpClient = await Client.create(signer)
+            const xmtpConnectPayload: XMTPActionPayloads['CONNECT'] = {
+              address: address,
+              signer: signer,
+              client: xmtpClient,
+            }
+            xmtpDispatch({
+              type: XMTPActionTypes.connect,
+              payload: xmtpConnectPayload,
+            })
+          } catch (err) {
+            handleError(err as Error)
           }
-          xmtpDispatch({
-            type: XMTPActionTypes.connect,
-            payload: xmtpConnectPayload,
-          })
         }
         initXMTP()
       }
@@ -45,7 +49,7 @@ const ConverseContainer = () => {
 
   return (
     <div className="relative w-screen h-auto flex items-center justify-center mt-5">
-      <GradientWrapper width={800} height={600} borderRaidus={10} hover={false} className="h-10 w-10">
+      <GradientWrapper width={800} height={600} borderRaidus={10} hover={false}>
         <Matches setPeerAddress={setPeerAddress} />
         <Chat peerAddress={peerAddress} />
       </GradientWrapper>

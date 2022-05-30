@@ -30,7 +30,7 @@ const Matches = ({ setPeerAddress }: MatchesProps) => {
   }, [handleMatches])
 
   return (
-    <div className="w-[300px] h-[600px] border-r-2 border-purple-400 p-[10px]">
+    <div className="w-[300px] h-[600px] border-r-2 border-purple-400 p-[10px] overflow-y-scroll">
       {matches.map((match, index) => (
         <div
           key={index}
