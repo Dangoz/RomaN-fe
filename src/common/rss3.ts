@@ -50,6 +50,21 @@ export default {
     }
   },
 
+  getNFTActivity: async (address: string, page: number, unidata: Unidata, cursor?: any): Promise<Notes> => {
+    try {
+      const notes: Notes = await unidata.notes.get({
+        source: config.rss3.sources.NFTActivity,
+        identity: address,
+        limit: config.rss3.contentLimits.feeds,
+        cursor,
+      })
+      return notes
+    } catch (err) {
+      console.error((err as Error).message)
+      return { total: 0, list: [] }
+    }
+  },
+
   getProfile: async (address: string, unidata: Unidata): Promise<Profiles> => {
     try {
       const profiles: Profiles = await unidata.profiles.get({

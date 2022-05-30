@@ -34,7 +34,7 @@ const Swiper = ({ addresses, handleNextProfile, isLoading }: SwiperProps) => {
 
   return (
     <>
-      <div className="w-full flex justify-center items-center mt-8">
+      <div className="w-full flex justify-center items-center mt-3">
         {address && provider && (
           <button className="w-[100px] h-[100px] rounded-[99px]" onClick={handleDiscard}>
             <GraidentWrapper width={100} height={100} borderRaidus={99} className="flex justify-center">
@@ -48,7 +48,7 @@ const Swiper = ({ addresses, handleNextProfile, isLoading }: SwiperProps) => {
           </button>
         )}
 
-        <div className="w-[500px] h-[500px] flex justify-center items-center mx-[100px]">
+        <div className="w-[500px] h-[550px] flex justify-center items-center mx-[100px]">
           {isLoading ? <Spinner /> : <Profile address={addresses[0]} />}
         </div>
 

@@ -12,7 +12,7 @@ const ControlBar = ({ handleSearch }: ControlBarProps) => {
     <>
       <div className="flex justify-center items-center w-full">
         <h1
-          className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 cursor-pointer text-2xl pt-2"
+          className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 cursor-default text-2xl pt-2"
           style={{ fontFamily: 'papyrus' }}
         >
           Search

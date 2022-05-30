@@ -26,7 +26,7 @@ const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
       await cyberconnect?.connect(targetAddress, config.cyberConnect.likeAlias, ConnectionType.LIKE)
       handleSuccess(`Just LIKED ${targetAddress}`)
     } catch (err) {
-      console.error(err)
+      console.error((err as Error).message)
     }
   }
 

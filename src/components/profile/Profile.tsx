@@ -3,6 +3,9 @@ import profileGenerator from '@/common/profile'
 import Spinner from '@/components/ui/Spinner'
 import IProfile from '@/types/profile'
 import GradientWrapper from '@/components/ui/GradientWrapper'
+import Asset from './Asset'
+import Note from './Note'
+import { Asset as AssetType, Note as NoteType } from '@/types/unidata'
 
 interface ProfileProps {
   address: string
@@ -11,6 +14,8 @@ interface ProfileProps {
 const Profile = ({ address }: ProfileProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [profile, setProfile] = useState<IProfile | null>(null)
+  const [assets, setAssets] = useState<AssetType[]>([])
+  const [notes, setNotes] = useState<NoteType[]>([])
 
   useEffect(() => {
     if (!address) {
@@ -25,10 +30,105 @@ const Profile = ({ address }: ProfileProps) => {
     getProfile()
   }, [address])
 
+  useEffect(() => {
+    if (!profile) {
+      return
+    }
+    const assets = profile.assets
+      .filter((asset) => {
+        return (
+          (asset.items && asset.items[0].address?.match(/\.(jpeg|jpg|gif|png)$/)) ||
+          (asset.previews && asset.previews[0].address?.match(/\.(jpeg|jpg|gif|png)$/))
+        )
+      })
+      .slice(0, 15)
+    setAssets(assets)
+  }, [profile])
+
+  useEffect(() => {
+    if (!profile) {
+      return
+    }
+    const notes = profile.notes
+    setNotes(notes)
+  }, [profile])
+
   return (
     <>
-      <div className="overflow-hidden h-[500px] w-[500px] flex justify-center items-center border-2 border-purple-700 rounded">
-        {isLoading || !profile ? <Spinner /> : <div>{JSON.stringify(profile.address, null, 2)}</div>}
+      <div className="overflow-hidden h-[550px] w-[500px] flex flex-col justify-center items-center border-2 border-purple-700 rounded">
+        {isLoading || !profile ? (
+          <Spinner />
+        ) : (
+          <div className=" overflow-y-scroll h-full w-full">
+            {/* avatar */}
+            <div className="my-1 w-full flex justify-center">
+              <img
+                className="h-[100px] w-[100px] rounded-[99px]"
+                src={profile?.avatar ? profile.avatar : '/ethShanghai.png'}
+                alt="avatar"
+              />
+            </div>
+
+            {/* domain, address */}
+            <div className="w-full flex justify-center flex-col items-center">
+              <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-3xl">
+                {profile.domain}
+              </div>
+              <div className="text-ellipsis overflow-hidden w-[190px] hover:w-full text-center">{profile.address}</div>
+            </div>
+
+            {/* bio */}
+            <div className="w-full flex justify-center mt-1">
+              <div className="text-ellipsis overflow-hidden break-words w-[360px] max-h-[50px] text-center">
+                {profile.bio}
+              </div>
+            </div>
+
+            {/* followerCount, followingCount */}
+            <div className="w-full flex justify-evenly mt-2">
+              <div className="text-center">
+                <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-4xl">
+                  {profile.followerCount}
+                </div>
+                Followers
+              </div>
+
+              <div className="text-center">
+                <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-4xl">
+                  {profile.followingCount}
+                </div>
+                Followings
+              </div>
+            </div>
+
+            {/* assets */}
+            <div className="text-center mt-5">
+              <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-4xl">
+                {assets.length ? 'Assets' : ''}
+              </div>
+              <div className="grid grid-cols-3">
+                {assets.map((asset, index) => (
+                  <Asset asset={asset} key={index} />
+                ))}
+              </div>
+            </div>
+
+            {/* footprints */}
+
+            {/* notes */}
+            <div className="text-center mt-5">
+              <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-4xl">
+                {profile.notes.length ? 'Notes' : 'NONO'}
+              </div>
+
+              <div className="flex flex-col w-full">
+                {notes.map((note, index) => (
+                  <Note note={note} key={index} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   )
