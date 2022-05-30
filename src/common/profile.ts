@@ -14,24 +14,32 @@ const profileGenerator = async (address: string): Promise<IProfile> => {
     infuraProjectID: config.infuraID,
   })
 
+  const profilePromise = rss3.getProfile(address, unidata)
+  const linksCountPromise = cyberconnect.getLinksCount(address)
+  const assetsPromise = rss3.getAssets(address, unidata)
+  const footprintsPromise = rss3.getFootprints(address, unidata)
+  const notesPromise = rss3.getNotes(address, 1, unidata)
+
+  const data = await Promise.all([profilePromise, linksCountPromise, assetsPromise, footprintsPromise, notesPromise])
+
   // get profile
-  const profiles = await rss3.getProfile(address, unidata)
+  const profiles = data[0]
   const uniProfile = profiles.list[0]
   const domain = uniProfile?.name || uniProfile?.username || ''
   const avatar = uniProfile?.avatars ? uniProfile.avatars[0] : ''
   const bio = uniProfile?.bio || ''
 
   // get links count
-  const { followerCount, followingCount } = await cyberconnect.getLinksCount(address)
+  const { followerCount, followingCount } = data[1]
 
   // get assets
-  const assets = await rss3.getAssets(address, unidata)
+  const assets = data[2]
 
   // get footprints
-  const footprints = await rss3.getFootprints(address, unidata)
+  const footprints = data[3]
 
   // get notes
-  const notes = await rss3.getNotes(address, 1, unidata)
+  const notes = data[4]
 
   const profile: IProfile = {
     address,
