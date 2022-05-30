@@ -11,9 +11,10 @@ interface ProfileProps {
   address: string
   width: number
   height: number
+  className?: string
 }
 
-const Profile = ({ width, height, address }: ProfileProps) => {
+const Profile = ({ width, height, address, className }: ProfileProps) => {
   const scrollRef = useRef<HTMLDivElement | null>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isAssetsLoading, setIsAssetsLoading] = useState<boolean>(false)
@@ -21,7 +22,7 @@ const Profile = ({ width, height, address }: ProfileProps) => {
   const [profile, setProfile] = useState<IProfile | null>(null)
   const [assets, setAssets] = useState<AssetType[]>([])
 
-  const handleNotesPaginate = useCallback(async () => {
+  const handleNotesPaginate = async () => {
     if (!profile) {
       return
     }
@@ -34,7 +35,7 @@ const Profile = ({ width, height, address }: ProfileProps) => {
       notes: [...profile.notes, ...data.notes],
     })
     setIsNotesLoading(false)
-  }, [address, profile])
+  }
 
   const handleAssetsPaginate = async () => {
     if (!profile) {
@@ -85,7 +86,7 @@ const Profile = ({ width, height, address }: ProfileProps) => {
     <>
       <div
         style={{ height: `${height}px`, width: `${width}px` }}
-        className="overflow-hidden flex flex-col justify-center items-center border-2 border-purple-700 rounded"
+        className={`overflow-hidden flex flex-col justify-center items-center rounded ${className}`}
       >
         {isLoading || !profile ? (
           <Spinner />
@@ -143,7 +144,9 @@ const Profile = ({ width, height, address }: ProfileProps) => {
                 ))}
               </div>
 
-              {isNotesLoading ? (
+              {!assets.length ? (
+                ''
+              ) : isAssetsLoading ? (
                 <div className="flex justify-center">
                   <Spinner />
                 </div>

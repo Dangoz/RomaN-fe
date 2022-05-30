@@ -6,13 +6,14 @@ interface GradientProfileProps {
   address: string
   width: number
   height: number
+  className?: string
 }
 
-const GradientProfile = ({ address, width, height }: GradientProfileProps) => {
+const GradientProfile = ({ address, width, height, className }: GradientProfileProps) => {
   return (
     <>
-      <GradientWrapper width={width} height={height} borderRaidus={10} borderWidth={6} hover={false}>
-        <Profile address={address} width={width} height={height} />
+      <GradientWrapper width={width} height={height} borderRaidus={10} borderWidth={7} hover={false}>
+        <Profile address={address} width={width} height={height} className={className} />
       </GradientWrapper>
     </>
   )
