@@ -7,6 +7,7 @@ import ControlBar from './ControlBar'
 import Swiper from './Swiper'
 import { handleQuestion } from '@/common/alert'
 import { ethers } from 'ethers'
+import Stack from './Stack'
 
 const handleRecommendation = async (address: string, page: number): Promise<IRecommendation[]> => {
   const recommendation = await cyberconnect.getRecommendation(
@@ -67,6 +68,12 @@ const ExploreContainer = () => {
     <div className="relative w-screen h-auto flex flex-col items-center justify-center mt-5">
       <ControlBar handleSearch={handleSearch} />
       <Swiper addresses={recommendation} handleNextProfile={handleNextProfile} isLoading={isLoading} />
+      <Stack stackCount={recommendation.length} />
+      {/* {recommendation.map(rec => (
+        <div key={rec}>
+          {rec}
+        </div>
+      ))} */}
     </div>
   )
 }

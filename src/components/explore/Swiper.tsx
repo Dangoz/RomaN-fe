@@ -48,7 +48,7 @@ const Swiper = ({ addresses, handleNextProfile, isLoading }: SwiperProps) => {
           </button>
         )}
 
-        <div className="w-[500px] h-[500px] border-2 border-purple-700 flex justify-center items-center mx-[100px]">
+        <div className="w-[500px] h-[500px] flex justify-center items-center mx-[100px]">
           {isLoading ? <Spinner /> : <Profile address={addresses[0]} />}
         </div>
 
