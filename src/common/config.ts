@@ -3,6 +3,21 @@ const config = {
   protectedPath: ['/profile', '/converse', '/edit'],
   infuraID: process.env.NEXT_PUBLIC_INFURA_ID,
 
+  rss3: {
+    preGodEndpoint: 'https://pregod.rss3.dev/v0.4.0/',
+    sources: {
+      ens: 'ENS',
+      ethereumNFT: 'Ethereum NFT',
+      NFTActivity: 'Ethereum NFT Activity',
+      mirror: 'Mirror Entry',
+    },
+    contentLimits: {
+      assets: 20,
+      footprints: 10,
+      feeds: 3, // paginated
+    },
+  },
+
   cyberConnect: {
     dataNetworkEndpoint: 'https://api.cybertino.io/connect/',
     namespace: 'RomaN',

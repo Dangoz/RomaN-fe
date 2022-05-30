@@ -5,7 +5,7 @@ import useUser from '@/hooks/useUser'
 import config from '@/common/config'
 import ControlBar from './ControlBar'
 import Swiper from './Swiper'
-import { handleWarning } from '@/common/alert'
+import { handleQuestion } from '@/common/alert'
 import { ethers } from 'ethers'
 
 const handleRecommendation = async (address: string, page: number): Promise<IRecommendation[]> => {
@@ -48,7 +48,7 @@ const ExploreContainer = () => {
   const handleSearch = (input: string) => {
     const check = ethers.utils.isAddress(input)
     if (!check) {
-      handleWarning('Invalid Address, Please Try Again.', false)
+      handleQuestion('Invalid Address, Please Try Again.', false, 'Info')
       return
     }
     setRecommendation([input, ...recommendation])

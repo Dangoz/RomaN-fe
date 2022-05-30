@@ -3,6 +3,7 @@ import useUser from '@/hooks/useUser'
 import useCyberConect from '@/hooks/useCyberConnect'
 import GraidentWrapper from '@/components/ui/GradientWrapper'
 import Spinner from '@/components/ui/Spinner'
+import Profile from '@/components/profile/Profile'
 
 interface SwiperProps {
   addresses: string[]
@@ -48,7 +49,7 @@ const Swiper = ({ addresses, handleNextProfile, isLoading }: SwiperProps) => {
         )}
 
         <div className="w-[500px] h-[500px] border-2 border-purple-700 flex justify-center items-center mx-[100px]">
-          {isLoading ? <Spinner /> : <div>{addresses[0]}</div>}
+          {isLoading ? <Spinner /> : <Profile address={addresses[0]} />}
         </div>
 
         {address && provider && (

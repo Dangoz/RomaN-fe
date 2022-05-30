@@ -25,13 +25,17 @@ const ControlBar = ({ handleSearch }: ControlBarProps) => {
           style={{ borderRadius: '0' }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
+              setInput('')
               handleSearch(input)
             }
           }}
         />
         <button
-          className="w-[40px] h-[40px] border-2 border-purple-700 flex justify-center items-center"
-          onClick={() => handleSearch(input)}
+          className="w-[40px] h-[40px] border-purple-700 flex justify-center items-center border-y-2 border-r-2"
+          onClick={() => {
+            setInput('')
+            handleSearch(input)
+          }}
         >
           <SearchIcon className="h-20 w-20" />
         </button>
