@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react'
 import profileGenerator from '@/common/profile'
 import Spinner from '@/components/ui/Spinner'
 import IProfile from '@/types/profile'
-import GradientWrapper from '@/components/ui/GradientWrapper'
 import Asset from './Asset'
 import Note from './Note'
 import { Asset as AssetType, Note as NoteType } from '@/types/unidata'
 
 interface ProfileProps {
   address: string
+  width: number
+  height: number
 }
 
-const Profile = ({ address }: ProfileProps) => {
+const Profile = ({ width, height, address }: ProfileProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [profile, setProfile] = useState<IProfile | null>(null)
   const [assets, setAssets] = useState<AssetType[]>([])
@@ -55,7 +56,10 @@ const Profile = ({ address }: ProfileProps) => {
 
   return (
     <>
-      <div className="overflow-hidden h-[550px] w-[500px] flex flex-col justify-center items-center border-2 border-purple-700 rounded">
+      <div
+        style={{ height: `${height}px`, width: `${width}px` }}
+        className="overflow-hidden flex flex-col justify-center items-center border-2 border-purple-700 rounded"
+      >
         {isLoading || !profile ? (
           <Spinner />
         ) : (

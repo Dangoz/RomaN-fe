@@ -43,7 +43,7 @@ const Note = ({ note }: { note: Note }) => {
         <div className="flex justify-start">
           {imgSrc ? (
             <img
-              className="w-[100px] h-[100px] object-cover"
+              className="w-[100px] object-cover max-h-[100px]"
               src={imgSrc}
               onError={() => {
                 setImgSrc('/ethShang.png')
@@ -67,7 +67,7 @@ const Note = ({ note }: { note: Note }) => {
         </div>
 
         {/* description */}
-        <div className="text-ellipsis overflow-hidden w-full h-[20px] flex flex-start">{note.summary?.content}</div>
+        <div className="overflow-hidden w-full h-[30px] flex flex-start text-ellipsis">{note.summary?.content}</div>
       </div>
     </>
   )

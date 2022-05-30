@@ -49,7 +49,7 @@ const Swiper = ({ addresses, handleNextProfile, isLoading }: SwiperProps) => {
         )}
 
         <div className="w-[500px] h-[550px] flex justify-center items-center mx-[100px]">
-          {isLoading ? <Spinner /> : <Profile address={addresses[0]} />}
+          {isLoading ? <Spinner /> : <Profile address={addresses[0]} width={500} height={550} />}
         </div>
 
         {address && provider && (
