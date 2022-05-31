@@ -1,38 +1,43 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import useUser from '@/hooks/useUser'
-
 import NavBar from '@/components/navigation/NavBar'
+import Router from 'next/router'
+import GradientWrapper from '@/components/ui/GradientWrapper'
 
 const Home: NextPage = () => {
   const {
     userState: { address, provider },
   } = useUser()
 
-  const [answer, setAnswer] = useState<string>('NaN')
-
-  useEffect(() => {
-    ;(async () => {
-      if (!provider) {
-        return setAnswer('NaN')
-      }
-      const wei = await provider?.getSigner().getBalance()
-      const balance = await ethers.utils.formatEther(wei)
-      setAnswer(balance)
-    })()
-  }, [provider])
+  const handleExplore = async () => {
+    Router.push('/explore')
+  }
 
   return (
     <>
       <NavBar />
-      ADDRESS: {address}
-      <br />
-      BALANCE: {answer}
-      <br />
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        {/* title */}
+        <h1
+          className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 cursor-default
+          text-[200px] mt-32"
+          style={{ fontFamily: 'papyrus' }}
+        >
+          RomaN
+        </h1>
+
+        {/* explore button */}
+        <div className="cursor-pointer" onClick={handleExplore}>
+          <GradientWrapper width={100} height={100} borderRaidus={99} className="flex justify-center">
+            <h1
+              className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 cursor-pointer text-xl hover:text-white w-[100px] h-[100px] rounded-[99px] pt-9 pl-3"
+              style={{ fontFamily: 'papyrus' }}
+            >
+              Explore
+            </h1>
+          </GradientWrapper>
+        </div>
+      </div>
     </>
   )
 }
