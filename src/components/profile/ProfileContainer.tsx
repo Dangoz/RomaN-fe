@@ -16,11 +16,9 @@ const ProfileContainer = () => {
     }
     profileRef.current.style.transform = `translate3d(${getOffset(e.clientX, window.innerWidth, 28)}px, 
     ${getOffset(e.clientY, window.innerHeight, 10)}px, -50px) `
-    // profileRef.current.style.transform = `rotateX(${getOffset(e.clientY, window.innerHeight, 0)}deg)`
-    // profileRef.current.style.transform = `rotateY(${getOffset(e.clientX, window.innerWidth, 0)}deg)`
 
-    // rotateX(${ getOffset(e.clientY, window.innerHeight, 0)}deg)
-    // rotateY(${ getOffset(e.clientX, window.innerWidth, 0) }deg)
+    // profileRef.current.style.transform = `rotateX(${getOffset(e.clientY, window.innerHeight, 30)}deg)`
+    // profileRef.current.style.transform = `rotateY(${getOffset(e.clientX, window.innerWidth, 45)}deg)`
   }
 
   const getOffset = (position: number, windowInner: number, distance: number) => {
@@ -37,8 +35,14 @@ const ProfileContainer = () => {
     <>
       <div className="w-full mt-10 h-full flex justify-between">
         <div className="w-full pl-5 flex flex-col items-center justify-center">
-          <div onClick={handleMint}>
-            <GradientWrapper className="flex justify-center cursor-pointer">MINT</GradientWrapper>
+          <div style={{ fontFamily: 'papyrus' }} onClick={handleMint}>
+            <GradientWrapper
+              borderRaidus={5}
+              className="flex justify-center cursor-pointer hover:text-white transition-none
+              text-2xl"
+            >
+              MINT
+            </GradientWrapper>
           </div>
         </div>
 

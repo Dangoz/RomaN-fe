@@ -236,9 +236,10 @@ export default {
         followerCount(namespace: $namespace, type: $type)
       }
     }`
+    // count links from CyberConnect - FOLLOW
     const variables = {
       address,
-      namespace: undefined, // count links across all namespace
+      namespace: 'CyberConnect',
       $type: ConnectionType.FOLLOW,
     }
     const { data, error } = await cyberConnectClient.query(linksCountQuery, variables).toPromise()
@@ -247,8 +248,24 @@ export default {
       return { followerCount: 0, followingCount: 0 }
     }
 
+    // count links from RomaN - LIKE
+    const variables2 = {
+      address,
+      namespace: config.cyberConnect.namespace,
+      $type: ConnectionType.LIKE,
+    }
+    const { data: data2, error: error2 } = await cyberConnectClient.query(linksCountQuery, variables).toPromise()
+    if (error2 != null) {
+      console.error('getLinksCount:', error2.message)
+      return { followerCount: 0, followingCount: 0 }
+    }
+
     // const linksCount = <{ followerCount: number, followingCount: number }>data.identity
     const { followerCount, followingCount } = data.identity
-    return { followerCount, followingCount }
+    const { followerCount: followerCount2, followingCount: followingCount2 } = data2.identity
+    return {
+      followerCount: followerCount + followerCount2,
+      followingCount: followingCount + followingCount2,
+    }
   },
 }

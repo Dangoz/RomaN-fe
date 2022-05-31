@@ -31,10 +31,17 @@ const Matches = ({ setPeerAddress }: MatchesProps) => {
 
   return (
     <div className="w-[300px] h-[600px] border-r-2 border-purple-400 p-[10px] overflow-y-scroll">
+      <div
+        className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 cursor-default text-3xl w-full rounded-[99px] pt-9 text-center"
+        style={{ fontFamily: 'papyrus' }}
+      >
+        Matches
+      </div>
+
       {matches.map((match, index) => (
         <div
           key={index}
-          className="w-[280px] h-[100px] my-[10px] flex items-center border-b-2 border-pink-300 justify-center"
+          className="w-[280px] h-[100px] mb-[10px] flex items-center border-b-2 border-pink-300 justify-center"
         >
           {/* match name */}
           <div className="overflow-hidden w-[180px] text-ellipsis hover:text-xs hover:break-words">
