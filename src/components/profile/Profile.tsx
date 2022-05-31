@@ -54,6 +54,19 @@ const Profile = ({ width, height, address, className }: ProfileProps) => {
     setIsAssetsLoading(false)
   }
 
+  const checkLength = (): boolean => {
+    if (!profile) {
+      return false
+    }
+    const profileAssets = profile.assets.filter((asset) => {
+      return (
+        (asset.items && asset.items[0].address?.match(/\.(jpeg|jpg|gif|png)$/)) ||
+        (asset.previews && asset.previews[0].address?.match(/\.(jpeg|jpg|gif|png)$/))
+      )
+    })
+    return profileAssets.length === assets.length
+  }
+
   useEffect(() => {
     if (!address) {
       return
@@ -144,7 +157,7 @@ const Profile = ({ width, height, address, className }: ProfileProps) => {
                 ))}
               </div>
 
-              {!assets.length ? (
+              {!assets.length || checkLength() ? (
                 ''
               ) : isAssetsLoading ? (
                 <div className="flex justify-center">

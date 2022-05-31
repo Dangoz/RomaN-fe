@@ -5,6 +5,7 @@ import connect from '@/common/connect'
 import { DotsHorizontalIcon } from '@heroicons/react/solid'
 import { BanIcon } from '@heroicons/react/outline'
 import useCyberConnect from '@/hooks/useCyberConnect'
+import { userContract } from '@/common/contract'
 
 interface PeerHeaderMenuProps {
   peerAddress: string
@@ -12,7 +13,7 @@ interface PeerHeaderMenuProps {
 
 const PeerHeaderMenu = ({ peerAddress }: PeerHeaderMenuProps) => {
   const {
-    userState: { provider },
+    userState: { address, provider },
   } = useUser()
   const { unfollow, block } = useCyberConnect(provider)
 
@@ -21,6 +22,18 @@ const PeerHeaderMenu = ({ peerAddress }: PeerHeaderMenuProps) => {
     await unfollow(peerAddress)
     // establish block relationship (REPORT) with target peer
     await block(peerAddress)
+
+    // write Block status to Polygon blockchain
+    if (!provider) {
+      return
+    }
+    try {
+      const contract = await userContract(provider.getSigner())
+      const result = await contract.blockUser(address, peerAddress)
+      console.log('User blocked on chain')
+    } catch (err) {
+      console.log((err as Error).message)
+    }
   }
 
   return (

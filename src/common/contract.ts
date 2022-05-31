@@ -10,13 +10,13 @@ export const tokenContract = async (signer: ethers.providers.JsonRpcSigner): Pro
   return contract
 }
 
-export const userContract = async (signer: ethers.providers.JsonRpcProvider): Promise<ethers.Contract> => {
+export const userContract = async (signer: ethers.providers.JsonRpcSigner): Promise<ethers.Contract> => {
   const abi = new ethers.utils.Interface(userContractAbi.abi)
   const contract = new ethers.Contract(config.contracts.romanUser, abi, signer)
   return contract
 }
 
-export const vaultContract = async (signer: ethers.providers.JsonRpcProvider): Promise<ethers.Contract> => {
+export const vaultContract = async (signer: ethers.providers.JsonRpcSigner): Promise<ethers.Contract> => {
   const abi = new ethers.utils.Interface(valultContractAbi.abi)
   const contract = new ethers.Contract(config.contracts.romanVault, abi, signer)
   return contract
