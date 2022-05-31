@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import useUser from '@/hooks/useUser'
 import GradientProfile from './GradientProfile'
 import GradientWrapper from '../ui/GradientWrapper'
+import { tokenContract } from '@/common/contract'
 
 const ProfileContainer = () => {
   const profileRef = useRef<HTMLDivElement | null>(null)
@@ -16,7 +17,6 @@ const ProfileContainer = () => {
     }
     profileRef.current.style.transform = `translate3d(${getOffset(e.clientX, window.innerWidth, 28)}px, 
     ${getOffset(e.clientY, window.innerHeight, 10)}px, -50px) `
-
     // profileRef.current.style.transform = `rotateX(${getOffset(e.clientY, window.innerHeight, 30)}deg)`
     // profileRef.current.style.transform = `rotateY(${getOffset(e.clientX, window.innerWidth, 45)}deg)`
   }
@@ -26,10 +26,23 @@ const ProfileContainer = () => {
   }
 
   const {
-    userState: { address },
+    userState: { address, provider },
   } = useUser()
 
-  const handleMint = () => {}
+  const handleMint = async () => {
+    if (!provider) {
+      return
+    }
+    console.log('MINTING')
+    try {
+      const contract = await tokenContract(provider.getSigner())
+      console.log('CONTRACT', contract.address, contract.signer)
+      const result = await contract.safeMint(address)
+      console.log('RESULT', result)
+    } catch (err) {
+      console.log((err as Error).message)
+    }
+  }
 
   return (
     <>

@@ -1,18 +1,23 @@
 import { ethers } from 'ethers'
+import valultContractAbi from '../../polygon-contracts/RomanVault.json'
+import tokenContractAbi from '../../polygon-contracts/RomanToken.json'
+import userContractAbi from '../../polygon-contracts/RomanUser.json'
+import config from './config'
 
-// functions for accessing contract
-// const createInstance = async (): Promise<ethers.utils.Interface> => {
-//   const abi = new ethers.utils.Interface({ abc: 'abc' })
-//   return abi
-// }
-
-const mintToken = async (
-  address: string,
-  abi: ethers.utils.Interface,
-  provider: ethers.providers.JsonRpcSigner,
-): Promise<ethers.Contract> => {
-  const contractMint = new ethers.Contract(address, abi, provider)
-  return contractMint
+export const tokenContract = async (signer: ethers.providers.JsonRpcSigner): Promise<ethers.Contract> => {
+  const abi = new ethers.utils.Interface(tokenContractAbi.abi)
+  const contract = new ethers.Contract(config.contracts.romanToken, abi, signer)
+  return contract
 }
 
-export {}
+export const userContract = async (signer: ethers.providers.JsonRpcProvider): Promise<ethers.Contract> => {
+  const abi = new ethers.utils.Interface(userContractAbi.abi)
+  const contract = new ethers.Contract(config.contracts.romanUser, abi, signer)
+  return contract
+}
+
+export const vaultContract = async (signer: ethers.providers.JsonRpcProvider): Promise<ethers.Contract> => {
+  const abi = new ethers.utils.Interface(valultContractAbi.abi)
+  const contract = new ethers.Contract(config.contracts.romanVault, abi, signer)
+  return contract
+}
