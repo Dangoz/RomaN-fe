@@ -9,6 +9,7 @@ import Menu from './Menu'
 import Router from 'next/router'
 import config from '@/common/config'
 import useXMTP from '@/hooks/useXMTP'
+import GradientWrapper from '../ui/GradientWrapper'
 
 const NavBar = () => {
   const [showConnect, setShowConnect] = useState<boolean>(false)
@@ -47,9 +48,15 @@ const NavBar = () => {
           {address.length && provider ? (
             <PortraitMenu name={address} avatar={''} />
           ) : (
-            <Button className="w-[200px] h-[36px]" onClick={() => setShowConnect(true)}>
-              Connect
-            </Button>
+            <GradientWrapper width={200} height={45} borderWidth={5} borderRaidus={5} className="">
+              <button
+                className="w-[200px] h-[45px] hover:text-white pt-1"
+                style={{ fontFamily: 'papyrus' }}
+                onClick={() => setShowConnect(true)}
+              >
+                Connect
+              </button>
+            </GradientWrapper>
           )}
         </div>
       </div>
