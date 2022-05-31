@@ -39,3 +39,13 @@ export const handleQuestion = (message: string, allowEnterKey: boolean = true, t
     allowEnterKey,
   })
 }
+
+export const handleInfo = (message: string, allowEnterKey: boolean = true, title?: string) => {
+  // display info through a popup
+  Swal.fire({
+    title: title ? title : 'Info',
+    text: message,
+    icon: 'info',
+    allowEnterKey,
+  })
+}

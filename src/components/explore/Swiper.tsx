@@ -4,7 +4,6 @@ import useCyberConect from '@/hooks/useCyberConnect'
 import GradientWrapper from '@/components/ui/GradientWrapper'
 import Spinner from '@/components/ui/Spinner'
 import Profile from '@/components/profile/Profile'
-import SuccessAlert from '@/components/ui/SuccessAlert'
 
 interface SwiperProps {
   addresses: string[]

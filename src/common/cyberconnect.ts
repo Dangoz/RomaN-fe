@@ -227,9 +227,9 @@ export default {
   // retrieve links (followers/followings) count for the passed in address
   getLinksCount: async (address: string): Promise<{ followerCount: number; followingCount: number }> => {
     const linksCountQuery = `query FullIdentityQuery(
-      $address: String! = "0x148d59faf10b52063071eddf4aaf63a395f2d41c"
-      $namespace: String = "CyberConnect"
-      $type: ConnectionType = FOLLOW
+      $address: String!
+      $namespace: String
+      $type: ConnectionType
     ) {
       identity(address: $address) {
         followingCount(namespace: $namespace, type: $type)
