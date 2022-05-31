@@ -238,7 +238,7 @@ export default {
     }`
     const variables = {
       address,
-      namespace: '', // count links across all namespace
+      namespace: undefined, // count links across all namespace
       $type: ConnectionType.FOLLOW,
     }
     const { data, error } = await cyberConnectClient.query(linksCountQuery, variables).toPromise()
