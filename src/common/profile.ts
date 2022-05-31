@@ -38,18 +38,21 @@ const profileGenerator = async (address: string): Promise<IProfile> => {
   const bio = uniProfile?.bio || ''
 
   let avatar = ''
+  // retrieve first available avatar string
   for (let profile of profiles.list) {
     if (profile.avatars && profile.avatars[0]) {
       avatar = profile.avatars[0]
       break
     }
   }
+  // check for nft string
   if (avatar.slice(0, 6) === 'eip155') {
     let li = avatar.split('/')
     const tokenId = li[2]
     const contractAddress = li[1].split(':')[1]
     avatar = await getNFTUrl(contractAddress, tokenId)
   }
+  // check for ipfs string
   if (avatar.slice(0, 4) === 'ipfs') {
     const ipfsAddress = avatar.split('ipfs://ipfs/')[1]
     avatar = `https://ipfs.io/ipfs/${ipfsAddress}`

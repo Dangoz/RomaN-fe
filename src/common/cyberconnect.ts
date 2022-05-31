@@ -227,18 +227,19 @@ export default {
   // retrieve links (followers/followings) count for the passed in address
   getLinksCount: async (address: string): Promise<{ followerCount: number; followingCount: number }> => {
     const linksCountQuery = `query FullIdentityQuery(
-      $address: String! = "0x148d59faf10b52063071eddf4aaf63a395f2d41c"
-      $namespace: String = "CyberConnect"
-      $type: ConnectionType = FOLLOW
+      $address: String!
+      $namespace: String
+      $type: ConnectionType
     ) {
       identity(address: $address) {
         followingCount(namespace: $namespace, type: $type)
         followerCount(namespace: $namespace, type: $type)
       }
     }`
+    // count links from CyberConnect - FOLLOW
     const variables = {
       address,
-      namespace: '', // count links across all namespace
+      namespace: 'CyberConnect',
       $type: ConnectionType.FOLLOW,
     }
     const { data, error } = await cyberConnectClient.query(linksCountQuery, variables).toPromise()
@@ -247,8 +248,24 @@ export default {
       return { followerCount: 0, followingCount: 0 }
     }
 
+    // count links from RomaN - LIKE
+    const variables2 = {
+      address,
+      namespace: config.cyberConnect.namespace,
+      $type: ConnectionType.LIKE,
+    }
+    const { data: data2, error: error2 } = await cyberConnectClient.query(linksCountQuery, variables).toPromise()
+    if (error2 != null) {
+      console.error('getLinksCount:', error2.message)
+      return { followerCount: 0, followingCount: 0 }
+    }
+
     // const linksCount = <{ followerCount: number, followingCount: number }>data.identity
     const { followerCount, followingCount } = data.identity
-    return { followerCount, followingCount }
+    const { followerCount: followerCount2, followingCount: followingCount2 } = data2.identity
+    return {
+      followerCount: followerCount + followerCount2,
+      followingCount: followingCount + followingCount2,
+    }
   },
 }

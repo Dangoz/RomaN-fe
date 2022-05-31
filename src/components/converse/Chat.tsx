@@ -4,6 +4,7 @@ import Spinner from '@/components/ui/Spinner'
 import Message from './Message'
 import useUser from '@/hooks/useUser'
 import TextInput from './TextInput'
+import PeerHeader from './PeerHeader'
 
 interface ChatProps {
   peerAddress: string
@@ -32,7 +33,7 @@ const Chat = ({ peerAddress }: ChatProps) => {
   return (
     <div className="w-[500px] h-[600px] flex flex-col">
       {/* top - avatar window */}
-      <div className="h-[60px] border-b-2">{peerAddress}</div>
+      <PeerHeader peerAddress={peerAddress} />
 
       {/* middle - message window */}
       <div className="w-full h-[450px] flex flex-col overflow-y-scroll p-2" ref={messagesRef}>

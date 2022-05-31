@@ -2,7 +2,7 @@ import CyberConnect, { ConnectionType, Env, Blockchain } from '@cyberlab/cyberco
 import { ethers } from 'ethers'
 import config from '@/common/config'
 import { useEffect, useState } from 'react'
-import { handleError, handleWarning, handleSuccess } from '@/common/alert'
+import { handleError, handleWarning, handleSuccess, handleInfo } from '@/common/alert'
 
 const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
   const [cyberconnect, setCyberconnect] = useState<CyberConnect | null>(null)
@@ -26,6 +26,9 @@ const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
       await cyberconnect?.connect(targetAddress, config.cyberConnect.likeAlias, ConnectionType.LIKE)
       handleSuccess(`Just LIKED ${targetAddress}`)
     } catch (err) {
+      if ((err as Error).message === 'CONNECT') {
+        handleInfo(`Already LIKED`)
+      }
       console.error((err as Error).message)
     }
   }
@@ -33,6 +36,7 @@ const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
   const block = async (targetAddress: string) => {
     try {
       await cyberconnect?.connect(targetAddress, config.cyberConnect.blockAlias, ConnectionType.REPORT)
+      handleWarning(`Just BLOCKED ${targetAddress}`)
     } catch (err) {
       console.error(err)
     }
@@ -42,6 +46,7 @@ const useCyberConnect = (provider: ethers.providers.Web3Provider | null) => {
   const unfollow = async (targetAddress: string) => {
     try {
       await cyberconnect?.disconnect(targetAddress)
+      // handleWarning(`JUST DISCONNECTED ${targetAddress}`)
     } catch (err) {
       console.error(err)
     }

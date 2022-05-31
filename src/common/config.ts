@@ -34,6 +34,12 @@ const config = {
     },
   },
 
+  contracts: {
+    romanUser: '0x2C2EFa09d5f9bCC854A658c6b724d3C6166c91e1',
+    romanToken: '0x7050078cB25665EBffB8C9422a60A205Fe982D7E',
+    romanVault: '0x0852249ab5c8b98bfaD154788a4D1361a39bbf19',
+  },
+
   preferred: [
     '0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944',
     '0x8ddd03b89116ba89e28ef703fe037ff77451e38e',
